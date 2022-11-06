@@ -1,0 +1,522 @@
+openapi: 3.0.3
+info:
+  title: JEU D'ECHEC :) OpenAPI 3.0
+  description: jeu d'echec pour toute la famille
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: 'Cahier des charges flo => click me <= '
+  url: >-
+    https://docs.google.com/document/d/1a3lUEoxPnqnFQ7tf16gY9kI1QsdGjp-sGYZMcFcaB8E/edit#
+servers:
+  - url: http://localhost:3000/api/
+tags:
+  - name: player
+    description: Operations about player
+  - name: match
+    description: Operations about match
+paths:
+  /player:
+    post:
+      tags:
+        - player
+      summary: pour entrer son pseudo et recevoir un id de joueur
+      description: pour entrer son pseudo et recevoir un id de joueur
+      operationId: addPlayer
+      requestBody:
+        description: Create a new player
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlayer'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/CreatePlayer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreatePlayer'
+        required: true
+      responses:
+        '201':
+          description: created player
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Player'
+        '404':
+          description: Piece not found
+        '405':
+          description: Invalid input
+      security: []
+    get:
+      tags:
+        - player
+      summary: recuperer les players
+      description: recuperer les players
+      operationId: findPlayers
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Player'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Player'
+      security: []
+  /player/{playerId}:
+    get:
+      tags:
+        - player
+      summary: Find player by ID
+      description: Returns a single player
+      operationId: getPlayerById
+      parameters:
+        - name: playerId
+          in: path
+          description: ID of player to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Player'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Player not found
+      security: []
+    delete:
+      tags:
+        - player
+      summary: Deletes a player
+      description: delete a player
+      operationId: deletePlayer
+      parameters:
+        - name: playerId
+          in: path
+          description: Player id to delete
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: no content
+        '400':
+          description: Invalid player value
+        '404':
+          description: player not found
+      security:
+        - BearerAuth: []
+  /match/{matchId}/chess-piece/{chessPieceId}/move:
+    post:
+      tags:
+        - match
+      summary: deplacer une piece du jeu
+      description: deplacer une piece du jeu
+      operationId: move
+      parameters:
+        - name: matchId
+          in: path
+          description: ID of match to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: chessPieceId
+          in: path
+          description: ID of chessPiece to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Move ChessPiece
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChessPosition'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ChessPosition'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChessPosition'
+        required: true
+      responses:
+        '200':
+          description: piece deplacée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChessPiece'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ChessPiece'
+        '405':
+          description: Invalid input
+      security:
+        - BearerAuth: []
+  /match:
+    post:
+      tags:
+        - match
+      summary: crée un match
+      description: definir un match public ou non et la playerColor
+      operationId: addMatch
+      requestBody:
+        description: Create a new match
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMatch'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/CreateMatch'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateMatch'
+        required: true
+      responses:
+        '201':
+          description: created match
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Match'
+        '405':
+          description: Invalid input
+      security:
+        - BearerAuth: []
+    get:
+      tags:
+        - match
+      summary: recuperer les matches
+      description: recuperer les infoMatches
+      operationId: findMatchs
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MatchInfo'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MatchInfo'
+      security: []
+  /match/{matchId}:
+    get:
+      tags:
+        - match
+      summary: recupere le match
+      description: recuperer les infoMatches d'un match
+      operationId: findMatch
+      parameters:
+        - name: matchId
+          in: path
+          description: ID of match to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MatchInfo'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MatchInfo'
+        '400':
+          description: Invalid status value
+        '404':
+          description: match not found
+      security: []
+  /match/{matchId}/chess-piece/{chessPieceId}/available-moves:
+    get:
+      tags:
+        - match
+      summary: >-
+        retourne les positions disponibles pour le prochain mouvement de la
+        pièce
+      description: retourne les positions disponibles
+      operationId: findAvailableMoves
+      parameters:
+        - name: matchId
+          in: path
+          description: ID of match to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: chessPieceId
+          in: path
+          description: ID of chessPiece to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChessPosition'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChessPosition'
+        '400':
+          description: Invalid status value
+        '404':
+          description: match not found
+      security: []
+  /match/{matchId}/chessboard:
+    get:
+      tags:
+        - match
+      summary: ' retourne le tour du joueur et la liste des pièces du match'
+      description: ' retourne le tour du joueur et la liste des pièces du match'
+      operationId: getChessboard
+      parameters:
+        - name: matchId
+          in: path
+          description: ID of match to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chessboard'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Chessboard'
+        '400':
+          description: Invalid status value
+        '404':
+          description: match not found
+      security: []
+components:
+  schemas:
+    Player:
+      required:
+        - pseudo
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        pseudo:
+          type: string
+          example: ptiflo
+      xml:
+        name: player
+    CreatePlayer:
+      required:
+        - pseudo
+      type: object
+      properties:
+        pseudo:
+          type: string
+          example: ptiflo
+      xml:
+        name: player
+    Match:
+      required:
+        - color
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        public:
+          type: boolean
+          example: 'true'
+      xml:
+        name: match
+    MatchInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        public:
+          type: boolean
+          example: 'true'
+        colorTurn:
+          type: string
+          enum:
+            - WHITE
+            - BLACK
+        players:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              pseudo:
+                type: string
+                example: ptiflo
+              playerColor:
+                type: string
+                enum:
+                  - WHITE
+                  - BLACK
+              chessPieces:
+                type: integer
+                example: '8'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    ChessPosition:
+      required:
+        - x
+        - 'y'
+      type: object
+      properties:
+        x:
+          type: integer
+          example: '1'
+        'y':
+          type: integer
+          example: '1'
+    Chessboard:
+      required:
+        - colorTurn
+        - pieces
+      type: object
+      properties:
+        colorTurn:
+          type: string
+          enum:
+            - WHITE
+            - BLACK
+        pieces:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChessPiece'
+    ChessPiece:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+            - KING
+            - QUEEN
+            - BISHOP
+            - ROOK
+            - KNIGHT
+            - PAWN
+        color:
+          type: string
+          enum:
+            - WHITE
+            - BLACK
+        x:
+          type: integer
+          example: '0'
+        'y':
+          type: integer
+          example: '0'
+    CreateMatch:
+      required:
+        - public
+        - playerColor
+      type: object
+      properties:
+        public:
+          type: boolean
+          example: 'true'
+        playerColor:
+          type: string
+          enum:
+            - WHITE
+            - BLACK
+      xml:
+        name: match
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+  requestBodies:
+    Player:
+      description: Pet object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Player'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Player'
+    PlayerArray:
+      description: List of player object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Player'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
