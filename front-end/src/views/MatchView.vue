@@ -1,7 +1,7 @@
 <template>
   <div>
     <CreateMatchVue class="pb-4 items-center" />
-    <!-- <GetAllMatchVue /> -->
+    <GameVue />
   </div>
 </template>
 
@@ -9,13 +9,14 @@
 import { mapState } from "vuex";
 // IMPORT COMPONENTS
 import CreateMatchVue from "@/components/CreateMatchVue.vue";
+import GameVue from "../components/GameVue.vue";
 // import GetAllMatchVue from "@/components/GetAllMatchVue.vue";
 export default {
   name: "MatchView",
   //instancier components
   components: {
     CreateMatchVue,
-    // GetAllMatchVue,
+    GameVue,
   },
   //moment ou la vue et afficher
   mounted() {
@@ -25,7 +26,7 @@ export default {
       return this.$router.push({ path: "/" });
     }
     //actions sont déclenchées avec la store.dispatch , recupere les information de l'utilisateur connecter
-    this.$store.dispatch("getplayerInfos", this.player.id);
+    this.$store.dispatch("getPlayerInfos", this.player.id);
   },
   computed: {
     //mapStaterenvoie un objet , pour simplifier les variable sans le ,$store.state
@@ -34,4 +35,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+box_change {
+  display: flex !important;
+}
+</style>
