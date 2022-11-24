@@ -159,6 +159,52 @@ export default {
           create() {
             this.add.image(0, 0, "bg").setOrigin(0, 0).setScale(0.5, 0.5);
             const tab = [
+              //tour
+              {
+                x: 0,
+                y: 7,
+                img: "Brook",
+              },
+              {
+                x: 7,
+                y: 7,
+                img: "Brook",
+              },
+              //cavalier
+              {
+                x: 1,
+                y: 7,
+                img: "Bknight",
+              },
+              {
+                x: 6,
+                y: 7,
+                img: "Bknight",
+              },
+              //fou
+              {
+                x: 2,
+                y: 7,
+                img: "Bbishop",
+              },
+              {
+                x: 5,
+                y: 7,
+                img: "Bbishop",
+              },
+              //roi
+              {
+                x: 4,
+                y: 7,
+                img: "Bking",
+              },
+              //reine
+              {
+                x: 3,
+                y: 7,
+                img: "Bqueen",
+              },
+              //tour
               {
                 x: 0,
                 y: 0,
@@ -168,6 +214,40 @@ export default {
                 x: 7,
                 y: 0,
                 img: "Wrook",
+              },
+              //cavalier
+              {
+                x: 1,
+                y: 0,
+                img: "Wknight",
+              },
+              {
+                x: 6,
+                y: 0,
+                img: "Wknight",
+              },
+              //fou
+              {
+                x: 2,
+                y: 0,
+                img: "Wbishop",
+              },
+              {
+                x: 5,
+                y: 0,
+                img: "Wbishop",
+              },
+              //roi
+              {
+                x: 4,
+                y: 0,
+                img: "Wking",
+              },
+              //reine
+              {
+                x: 3,
+                y: 0,
+                img: "Wqueen",
               },
             ];
             for (let index = 0; index < 8; index++) {
