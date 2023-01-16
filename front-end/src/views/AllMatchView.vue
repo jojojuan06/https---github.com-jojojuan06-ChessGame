@@ -2,8 +2,7 @@
   <div>
     <div>{{ playerInfos.pseudo }}</div>
     <CreateMatchVue class="pb-4 items-center" />
-    
-    <GameVue />
+    <GetAllMatchVue class="pb-4 items-center" />
   </div>
 </template>
 
@@ -11,14 +10,14 @@
 import { mapState } from "vuex";
 // IMPORT COMPONENTS
 import CreateMatchVue from "@/components/CreateMatchVue.vue";
-import GameVue from "../components/GameVue.vue";
+import GetAllMatchVue from "../components/GetAllMatchVue.vue";
 // import GetAllMatchVue from "@/components/GetAllMatchVue.vue";
 export default {
-  name: "MatchView",
+  name: "AllMatchView",
   //instancier components
   components: {
     CreateMatchVue,
-    GameVue,
+    GetAllMatchVue,
   },
   //moment ou la vue et afficher
   mounted() {
@@ -32,7 +31,7 @@ export default {
   },
   computed: {
     //mapStaterenvoie un objet , pour simplifier les variable sans le ,$store.state
-    ...mapState(["playerInfos", "player", "match"]), //renomer l'element du state
+    ...mapState(["playerInfos", "player"]), //renomer l'element du state
   },
 };
 </script>

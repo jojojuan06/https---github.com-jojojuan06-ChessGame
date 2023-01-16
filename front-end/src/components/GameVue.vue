@@ -1,110 +1,7 @@
 <template>
   <div class="hello flex justify-center items-center">
-    <!-- <div @click="initializeGame" class="flex">
-      <a href="#1" class="btn">Initialize</a>
-    </div> -->
     <ion-phaser v-bind:game.prop="game" v-bind:initialize.prop="initialize" />
   </div>
-  <!-- <div v-for="(piece, index) in pieces" :key="index">
-    <div class="flex flex-col w-full justify-center items-center">
-      <div class="flex">
-        <li class="box Bpiece flex"><img :src="piece.Brook" alt="" class="w-full" /></li>
-        <li class="box Bpiece flex">
-          <img :src="piece.Bknight" alt="" class="w-full" />
-        </li>
-        <li class="box Bpiece flex">
-          <img :src="piece.Bbishop" alt="" class="w-full" />
-        </li>
-        <li class="box Bpiece flex"><img :src="piece.Bqueen" alt="" class="w-full" /></li>
-        <li class="box Bpiece flex"><img :src="piece.Bking" alt="" class="w-full" /></li>
-        <li class="box Bpiece flex">
-          <img :src="piece.Bbishop" alt="" class="w-full" />
-        </li>
-        <li class="box Bpiece flex">
-          <img :src="piece.Bknight" alt="" class="w-full" />
-        </li>
-        <li class="box Bpiece flex"><img :src="piece.Brook" alt="" class="w-full" /></li>
-      </div>
-      <div class="flex">
-        <li class="box Bpawn flex"><img :src="piece.Bpawn" alt="" class="w-full" /></li>
-        <li class="box Bpawn flex"><img :src="piece.Bpawn" alt="" class="w-full" /></li>
-        <li class="box Bpawn flex"><img :src="piece.Bpawn" alt="" class="w-full" /></li>
-        <li class="box Bpawn flex"><img :src="piece.Bpawn" alt="" class="w-full" /></li>
-        <li class="box Bpawn flex"><img :src="piece.Bpawn" alt="" class="w-full" /></li>
-        <li class="box Bpawn flex"><img :src="piece.Bpawn" alt="" class="w-full" /></li>
-        <li class="box Bpawn flex"><img :src="piece.Bpawn" alt="" class="w-full" /></li>
-        <li class="box Bpawn flex"><img :src="piece.Bpawn" alt="" class="w-full" /></li>
-      </div>
-      <div class="flex">
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-      </div>
-      <div class="flex">
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-      </div>
-      <div class="flex">
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-      </div>
-      <div class="flex">
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-        <li class="box"></li>
-      </div>
-      <div class="flex">
-        <li class="box Wpawn flex"><img :src="piece.Wpawn" alt="" class="w-full" /></li>
-        <li class="box Wpawn flex"><img :src="piece.Wpawn" alt="" class="w-full" /></li>
-        <li class="box Wpawn flex"><img :src="piece.Wpawn" alt="" class="w-full" /></li>
-        <li class="box Wpawn flex"><img :src="piece.Wpawn" alt="" class="w-full" /></li>
-        <li class="box Wpawn flex"><img :src="piece.Wpawn" alt="" class="w-full" /></li>
-        <li class="box Wpawn flex"><img :src="piece.Wpawn" alt="" class="w-full" /></li>
-        <li class="box Wpawn flex"><img :src="piece.Wpawn" alt="" class="w-full" /></li>
-        <li class="box Wpawn flex"><img :src="piece.Wpawn" alt="" class="w-full" /></li>
-      </div>
-      <div class="flex">
-        <li class="box Wpiece flex"><img :src="piece.Wrook" alt="" class="w-full" /></li>
-        <li class="box Wpiece flex">
-          <img :src="piece.Wknight" alt="" class="w-full" />
-        </li>
-        <li class="box WPiece flex">
-          <img :src="piece.Wbishop" alt="" class="w-full" />
-        </li>
-        <li class="box Wpiece flex"><img :src="piece.Wqueen" alt="" class="w-full" /></li>
-        <li class="box Wpiece flex"><img :src="piece.Wking" alt="" class="w-full" /></li>
-        <li class="box Wpiece flex">
-          <img :src="piece.Wbishop" alt="" class="w-full" />
-        </li>
-        <li class="box Wpiece flex">
-          <img :src="piece.Wknight" alt="" class="w-full" />
-        </li>
-        <li class="box Wpiece flex"><img :src="piece.Wrook" alt="" class="w-full" /></li>
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script>
@@ -116,13 +13,27 @@
 //   parent: "chessboard",
 //   scene: [Example],
 // };
+import { mapState } from "vuex";
 import Phaser from "phaser";
 export default {
   name: "gameVue",
-  // mounted() {
-  //     //permet de recuperer les pieces
-  //     this.chesspiecePosition();
-  // },
+  watch: {
+    ChessPieces(neWW) {
+      console.log("neWW info ==>", neWW);
+      alert("aaa");
+    },
+  },
+  mounted() {
+    //permet de recuperer les pieces
+    console.log("info::>", this.ChessPieces.length);
+    this.chesspiecePosition();
+  },
+  //computed  nous permettent de définir une valeur réutilisable qui est mise à jour en fonction d'autres propriétés
+  //Mapstate permet d’utiliser des function calculer depuis le store
+  computed: {
+    //mapStaterenvoie un objet , pour simplifier les variable sans le ,$store.state
+    ...mapState(["ChessPieces", "match"]), //renomer l'element du state
+  },
   props: {
     match: {
       type: Object,
@@ -133,6 +44,7 @@ export default {
     return {
       // game: new Phaser.Game(config),
       initialize: true,
+      chesspieceImages: [],
       game: {
         width: 680,
         height: 686,

@@ -14,6 +14,10 @@ export default createStore({
       pseudo:'',
       updatedAt:'',
     },
+    match: {
+      //
+    },
+    matches:[],
   },
   getters: {
   },
@@ -25,20 +29,28 @@ export default createStore({
       state.status = data.status;
       state.message = data.message;
     },
+    SETMATCH(state, match) {
+      state.match = match;
+    },
      //creation mutations playerInfos
     PLAYERINFOS(state, playerInfos) {
       state.playerInfos = playerInfos;
     },
-    lOGPLAYER(state, player) {
+    lOGPLAYER(state, {player,token}) {
       //recuperation des infos utilisateur a la connections
       state.playerInfos = player
       //passez le token dans authorization
-      axios.defaults.headers.common['Authorization'] = `Bearer ${player.token}`; 
+      console.log("info token==>",token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; 
       //stocker le user dans le storage local
       //stringify pour enr dans le storage
       localStorage.setItem('player', JSON.stringify(player));
       state.player = player;
-    }
+    },
+    //afficher les matchs
+    DISPLAY_MATCHES(state, matches) {
+      state.matches = matches;
+    },
   },
   actions: {
       getChessboard:({commit } , matchId) => {
@@ -52,10 +64,23 @@ export default createStore({
       },
       createMatch: ({commit}, {form}) => {
         //requete Post enregistrer l'utilisateur
-          console.log('AAAAA');
           axios.post('/match', form) 
           .then(function (response) {
+            commit('SETMATCH', response.data);
             commit('SETSTATUS' , {status:'success',message: response.data}); 
+            return response
+          })
+          .catch(function (error) {
+            //message du back-end
+            commit('SETSTATUS' , {status:'error',message:`Nous faisons face à cette erreur ${error}`});
+          });
+        },
+      getAllMatch: ({commit}) => {
+        //requete Post enregistrer l'utilisateur
+          axios.get('/match') 
+          .then(function (response) {
+            commit('SETSTATUS' , {status:'success',message: response.data}); 
+            commit('DISPLAY_MATCHES' , response.data); 
           })
           .catch(function (error) {
             //message du back-end
@@ -69,7 +94,7 @@ export default createStore({
           .then(function (response) {
             commit('SETSTATUS' , {status:'success',message: response.data}); 
             // recupere data.player pour les info du player coter back-end
-            commit('lOGPLAYER', response.data.player)
+            commit('lOGPLAYER', {player:response.data.player,token:response.data.token})
           })
           .catch(function (error) {
             //message du back-end

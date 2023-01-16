@@ -78,8 +78,8 @@ export default {
         playerColor: this.form.playerColor,
       };
       this.add({ form: AddMatch })
-        .then(() => {
-          This.$router.push({ path: "/" });
+        .then((response) => {
+          This.$router.push({ path: "/match/" + response.data.id });
         })
         .catch((error) => console.log(error));
     },
