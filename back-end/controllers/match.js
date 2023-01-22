@@ -60,7 +60,7 @@ exports.createMatch = (req, res, next) => { //function de callback
             for (let index = 0; index < 8; index++) {
                 initChessPiece(index,6,"PAWN","BLACK")
             }
-            return res.status(201).json({ message: 'Match enregistré !'});  
+            return res.status(201).json({ message: 'Match enregistré !',  match:match });  // UNE RESPONSE / ACKNOWLEDGE
         }
     }) // retourne la response 200 pour ok pour la methode http , renvoi l'objet (un objet)si il existe dans la Bd
     .catch(error => res.status(400).json({ message: `nous faisons face a cette: ${error}`}))

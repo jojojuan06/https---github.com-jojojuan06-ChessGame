@@ -40,7 +40,6 @@ export default createStore({
       //recuperation des infos utilisateur a la connections
       state.playerInfos = player
       //passez le token dans authorization
-      console.log("info token==>",token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; 
       //stocker le user dans le storage local
       //stringify pour enr dans le storage
@@ -53,7 +52,8 @@ export default createStore({
     },
   },
   actions: {
-      getChessboard:({commit } , matchId) => {
+    //recuperer l'etat de jeu
+      getChessboard:({commit } , {matchId}) => {
           axios.get(`/match/${matchId}/chessboard`)
           .then(function (response) {
             commit('DISPLAY_CHESSPIECES', response.data.pieces);
@@ -64,10 +64,10 @@ export default createStore({
       },
       createMatch: ({commit}, {form}) => {
         //requete Post enregistrer l'utilisateur
-          axios.post('/match', form) 
+          return axios.post('/match', form) // ici
           .then(function (response) {
             commit('SETMATCH', response.data);
-            commit('SETSTATUS' , {status:'success',message: response.data}); 
+            commit('SETSTATUS' , {status:'success',message: response.data});
             return response
           })
           .catch(function (error) {
@@ -89,7 +89,6 @@ export default createStore({
         },
       createPlayer: ({commit},{playerInfo}) => {
         //requete Post enregistrer l'utilisateur
-          console.log('createPlayer');
           axios.post('/player', playerInfo) 
           .then(function (response) {
             commit('SETSTATUS' , {status:'success',message: response.data}); 
@@ -107,8 +106,7 @@ export default createStore({
             //type et payload (recupere les info utilisateur)  
             commit('PLAYERINFOS' , response.data); 
           })
-          .catch(error => { 
-            console.log(error); 
+          .catch(error => {  
             commit('SETSTATUS' , {status:'error',message:`Nous faisons face à cette erreur ${error}`});
           });
         },

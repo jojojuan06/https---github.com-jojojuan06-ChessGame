@@ -19,14 +19,13 @@ export default {
   name: "gameVue",
   watch: {
     ChessPieces(neWW) {
-      console.log("neWW info ==>", neWW);
       alert("aaa");
     },
   },
   mounted() {
     //permet de recuperer les pieces
-    console.log("info::>", this.ChessPieces.length);
     this.chesspiecePosition();
+    //this.$store.dispatch("getChessboard", matchId);
   },
   //computed  nous permettent de définir une valeur réutilisable qui est mise à jour en fonction d'autres propriétés
   //Mapstate permet d’utiliser des function calculer depuis le store
@@ -217,7 +216,7 @@ export default {
       chesspiece.setPosition(canvasx / 2, canvasy / 2);
     },
     chesspiecePosition() {
-      this.$store.dispatch("getChessboard", { matchId: this.match.id });
+      this.$store.dispatch("getChessboard", { matchId: this.$route.params.id });
     },
     initializeGame() {
       this.initialize = true;

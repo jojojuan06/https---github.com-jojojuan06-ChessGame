@@ -71,7 +71,6 @@ export default {
   methods: {
     ...mapActions({ add: "createMatch" }),
     CreateMatch() {
-      console.log("creatematch");
       let This = this;
       let AddMatch = {
         public: this.form.public,
@@ -79,18 +78,17 @@ export default {
       };
       this.add({ form: AddMatch })
         .then((response) => {
-          This.$router.push({ path: "/match/" + response.data.id });
+          const path = "/match/" + response.data.match.id;
+          This.$router.push({ path });
         })
         .catch((error) => console.log(error));
     },
     //function pour different etat sur l'affichage des buttons
     switchToDisplayNewMatch() {
       this.mode = "bydefault";
-      console.log(this.mode);
     },
     switchTocreateMatch() {
       this.mode = "create";
-      console.log(this.mode);
     },
     //rafraichir la liste des posts apres ajout d'un nouveau
     refreshMatch() {
