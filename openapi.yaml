@@ -11,7 +11,7 @@ externalDocs:
   url: >-
     https://docs.google.com/document/d/1a3lUEoxPnqnFQ7tf16gY9kI1QsdGjp-sGYZMcFcaB8E/edit#
 servers:
-  - url: http://localhost:3000/api/
+  - url: http://localhost:3000/api
 tags:
   - name: player
     description: Operations about player
@@ -32,9 +32,6 @@ paths:
             schema:
               $ref: '#/components/schemas/CreatePlayer'
           application/xml:
-            schema:
-              $ref: '#/components/schemas/CreatePlayer'
-          application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/CreatePlayer'
         required: true
@@ -159,9 +156,6 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/ChessPosition'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/ChessPosition'
         required: true
       responses:
         '200':
@@ -191,9 +185,6 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateMatch'
           application/xml:
-            schema:
-              $ref: '#/components/schemas/CreateMatch'
-          application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/CreateMatch'
         required: true
